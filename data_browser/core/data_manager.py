@@ -20,7 +20,7 @@ from data_browser.utils.logger import logger
 class DataResult:
     """Container for loaded data."""
     data: np.ndarray          # N-D array
-    dims: list                # Dimension labels like ["Eb", "theta", "scan"]
+    dims: list                # Dimension labels like ["energy", "angle", "scan"]
     coords: Dict[str, np.ndarray]  # Coordinate arrays for each dimension
     meta: Dict[str, Any]      # Metadata
     filepath: str             # Source file path

@@ -69,7 +69,7 @@ def load(path: str) -> xr.DataArray:
     try:
         mtime = os.path.getmtime(path)
         attrs["TimeStamp"] = datetime.fromtimestamp(mtime).isoformat()
-    except OSError:
+    except:
         pass
 
     # Parse Note
@@ -130,7 +130,7 @@ def load(path: str) -> xr.DataArray:
     
     # Dimension 0: Energy
     if ndim >= 1:
-        dims.append("Eb")
+        dims.append("energy")
         
         # If we successfully parsed ke_start and hv, we override the generic axis 0
         if ke_start is not None and hv is not None:
@@ -151,25 +151,25 @@ def load(path: str) -> xr.DataArray:
             # MATLAB: dataStr.raw_eb = raw_eb-hv+4.5;
             raw_eb = raw_eb_kinetic - hv + 4.5
             
-            coords["Eb"] = raw_eb
+            coords["energy"] = raw_eb
             attrs["Type"] = "Eb(k)" # Default 2D type
         else:
             # Fallback if metadata missing
-            coords["Eb"] = axes_coords[0]
+            coords["energy"] = axes_coords[0]
             
-    # Dimension 1: Angle (Theta)
+    # Dimension 1: Angle
     if ndim >= 2:
-        dims.append("theta")
+        dims.append("angle")
         # MATLAB: raw_tht = sfB(2):sfA(2):...
         # This matches our generic axes_coords[1]
-        coords["theta"] = axes_coords[1]
+        coords["angle"] = axes_coords[1]
         
-    # Dimension 2: Tilt / Scan / Phi
+    # Dimension 2: Scan (Tilt/Phi)
     if ndim >= 3:
-        dims.append("phi") # Using 'phi' for 3rd dim often, or 'scan'
+        dims.append("scan")
         # MATLAB: dataStr.tltM = sfB(3):sfA(3):...
         # MATLAB sets Type = "Eb(kx,ky)"
-        coords["phi"] = axes_coords[2]
+        coords["scan"] = axes_coords[2]
         attrs["Type"] = "Eb(kx,ky)"
         
         # In MATLAB, if 3D, tltM becomes the axis array. 

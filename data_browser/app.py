@@ -12,14 +12,7 @@ Usage:
 import sys
 import os
 
-# Add project root to sys.path to allow imports from data_browser package
-current_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.dirname(current_dir)
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
 from PySide6.QtWidgets import QApplication
-from PySide6.QtCore import Qt
 
 from data_browser.ui.main_window import MainWindow
 from data_browser.utils.logger import logger

@@ -31,7 +31,7 @@ def load(path: str) -> xr.DataArray:
         path: Absolute path to the .zip file.
 
     Returns:
-        xarray.DataArray: The loaded data with dimensions (Eb, theta, phi) and metadata.
+        xarray.DataArray: The loaded data with dimensions (energy, angle, scan) and metadata.
     """
     if not os.path.exists(path):
         raise FileNotFoundError(f"File not found: {path}")
@@ -193,17 +193,17 @@ def load(path: str) -> xr.DataArray:
     energy_label = "Kinetic energy" if energy_scale.startswith("Kinetic") else "Binding energy"
     
     coords = {
-        "Eb": (["Eb"], energy_axis, {"units": "eV", "long_name": energy_label}),
-        "theta": (["theta"], analyzer_axis, {"units": "degree", "long_name": "Analyzer angle"}),
-        "phi": (["phi"], deflector_axis, {"units": "degree", "long_name": "Deflector angle"}),
+        "energy": (["energy"], energy_axis, {"units": "eV", "long_name": energy_label}),
+        "angle": (["angle"], analyzer_axis, {"units": "degree", "long_name": "Analyzer angle"}),
+        "scan": (["scan"], deflector_axis, {"units": "degree", "long_name": "Deflector angle"}),
     }
 
     # Create DataArray
-    # Dimensions: (Eb, theta, phi)
+    # Dimensions: (energy, angle, scan)
     da = xr.DataArray(
         data=data_final,
         coords=coords,
-        dims=("Eb", "theta", "phi"),
+        dims=("energy", "angle", "scan"),
         attrs=attrs,
         name="intensity"
     )

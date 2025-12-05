@@ -17,7 +17,7 @@ def load_sis_data(path: str) -> xr.DataArray:
     -------
     xr.DataArray
         The loaded data with coordinates and metadata.
-        Dimensions are typically ('Eb', 'theta') for 2D or ('Eb', 'theta', 'scan') for 3D.
+        Dimensions are typically ('energy', 'angle') for 2D or ('energy', 'angle', 'scan') for 3D.
     """
     if not os.path.exists(path):
         raise FileNotFoundError(f"File not found: {path}")
@@ -78,18 +78,18 @@ def load_sis_data(path: str) -> xr.DataArray:
         dims = []
         
         # Mapping based on MATLAB analysis:
-        # MATLAB Axis0 -> Energy (Eb)
-        # MATLAB Axis1 -> Angle (theta)
+        # MATLAB Axis0 -> Energy
+        # MATLAB Axis1 -> Angle
         # MATLAB Axis2 -> Scan
-        # Python h5py shape matches this order (Eb, theta, scan) if saved as C-order (Energy, Angle, Scan).
-        # We will assume (Eb, theta, scan) structure.
+        # Python h5py shape matches this order (energy, angle, scan) if saved as C-order.
+        # We use standardized names: energy, angle, scan
         
-        coords['Eb'] = coords_0
-        dims.append('Eb')
+        coords['energy'] = coords_0
+        dims.append('energy')
         
         if coords_1 is not None:
-            coords['theta'] = coords_1
-            dims.append('theta')
+            coords['angle'] = coords_1
+            dims.append('angle')
             
         if coords_2 is not None:
             coords['scan'] = coords_2

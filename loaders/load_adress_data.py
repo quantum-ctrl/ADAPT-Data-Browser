@@ -192,7 +192,7 @@ def load(path: str) -> xr.DataArray:
         path: Path to the .h5 file.
         
     Returns:
-        xarray.DataArray with dimensions (Eb, theta, [scan]) and metadata.
+        xarray.DataArray with dimensions (energy, angle, [scan]) and metadata.
     """
     if not os.path.exists(path):
         raise FileNotFoundError(f"File not found: {path}")
@@ -229,9 +229,9 @@ def load(path: str) -> xr.DataArray:
                                     note = ''.join(str(x) for x in arr.ravel())
                             else:
                                 note = str(arr)
-                        except Exception:
+                        except:
                             note = str(arr)
-            except Exception:
+            except:
                 pass
 
         # 2c: check dataset attributes for IGOR-like note fields (e.g., IGORWaveNote)
@@ -345,17 +345,17 @@ def load(path: str) -> xr.DataArray:
         
         # Prepare Coords and Dims
         if data.ndim == 3:
-            dims = ("Eb", "theta", "scan")
+            dims = ("energy", "angle", "scan")
             coords = {
-                "Eb": energy_axis,
-                "theta": angle_axis,
+                "energy": energy_axis,
+                "angle": angle_axis,
                 "scan": scan_axis
             }
         else:
-            dims = ("Eb", "theta")
+            dims = ("energy", "angle")
             coords = {
-                "Eb": energy_axis,
-                "theta": angle_axis
+                "energy": energy_axis,
+                "angle": angle_axis
             }
             
         # Prepare Attributes

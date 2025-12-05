@@ -31,10 +31,10 @@ A desktop application for browsing and visualizing scientific ARPES (Angle-Resol
 ## Installation
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
+cd ADAPT-Data-Browser-main
+python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-python3 data_browser/app.py
+python3 -m data_browser.app
 ```
 
 ## License
