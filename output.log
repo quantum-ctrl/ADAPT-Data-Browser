@@ -1,0 +1,6 @@
+17:21:08 - data_browser - INFO - MainWindow initialized
+17:21:08 - data_browser - INFO - Application started
+17:21:15 - data_browser - INFO - Opening folder: /Users/mengyu/Desktop/git/ADAPT/data
+17:21:16 - data_browser - INFO - Loading file: /Users/mengyu/Desktop/git/ADAPT/data/a004_qkz.h5
+QPixmap::fromImage: QPixmap cannot be created without a QGuiApplication
+QPixmap: Must construct a QGuiApplication before a QPixmap

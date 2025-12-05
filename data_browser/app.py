@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+"""
+ADAPT - ARPES Data Analysis & Processing Tool - Data Browser - Entry Point
+
+A desktop application for browsing and visualizing scientific ARPES data files.
+Supports HDF5, IBW, and ZIP file formats.
+
+Usage:
+    python app.py [initial_folder]
+"""
+
+import sys
+import os
+
+# Add project root to sys.path to allow imports from data_browser package
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+from PySide6.QtWidgets import QApplication
+from PySide6.QtCore import Qt
+
+from data_browser.ui.main_window import MainWindow
+from data_browser.utils.logger import logger
+
+
+def main():
+    """Main entry point."""
+    # High DPI scaling is enabled by default in Qt6, no need to set attributes
+    
+    # Create application
+    app = QApplication(sys.argv)
+    app.setApplicationName("ADAPT - ARPES Data Analysis & Processing Tool - Data Browser")
+    app.setOrganizationName("ADAPT")
+    
+    # Create and show main window
+    window = MainWindow()
+    window.show()
+    
+    # Handle command line argument for initial folder
+    if len(sys.argv) > 1:
+        initial_folder = sys.argv[1]
+        if os.path.isdir(initial_folder):
+            logger.info(f"Opening initial folder: {initial_folder}")
+            window.dir_panel.set_root_path(initial_folder)
+    
+    logger.info("Application started")
+    
+    # Run event loop
+    sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()
